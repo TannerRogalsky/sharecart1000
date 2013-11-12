@@ -12,10 +12,14 @@ function Map:initialize(x, y, width, height, tile_width, tile_height)
   self.render_queue = Skiplist.new(self.width * self.height * 3)
 
   self.grid = Grid:new(self.width, self.height)
-  self.each = function(self, ...) return self.grid:each(...) end
   for x,y,_ in self.grid:each() do
     self.grid[x][y] = MapTile:new(self, x, y)
   end
+
+  -- map to grid proxy functions
+  self.each = function(self, ...) return self.grid:each(...) end
+  self.set = function(self, ...) return self.grid:set(...) end
+  self.get = function(self, ...) return self.grid:get(...) end
 
   -- grid a* functions
   local function adjacency(tile)

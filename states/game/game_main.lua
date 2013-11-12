@@ -9,7 +9,7 @@ function Main:enteredState()
   for x, y, tile in self.map:each() do
     table.insert(tile.content, "i")
   end
-  self.map.grid:get(5, 5).content = {"g", "@"}
+  self.map:get(5, 5).content = {"g", "@"}
 
 end
 
