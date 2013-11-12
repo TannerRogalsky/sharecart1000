@@ -62,37 +62,6 @@ function Map:grid_to_world_coords(x, y)
   return (x - 1) * self.tile_width + self.x, (y - 1) * self.tile_height + self.y
 end
 
-function Map.keypressed_up(self)
-  self.player:move(0, -1)
-end
-
-function Map.keypressed_right(self)
-  self.player:move(1, 0)
-end
-
-function Map.keypressed_down(self)
-  self.player:move(0, 1)
-end
-
-function Map.keypressed_left(self)
-  self.player:move(-1, 0)
-end
-
-local control_map = {
-  keyboard = {
-    on_press = {
-      up =    Map.keypressed_up,
-      right = Map.keypressed_right,
-      down =  Map.keypressed_down,
-      left =  Map.keypressed_left
-    },
-    on_release = {
-    },
-    on_update = {
-    }
-  }
-}
-
 function Map:mousepressed(x, y, button)
 end
 
@@ -100,24 +69,15 @@ function Map:mousereleased(x, y, button)
 end
 
 function Map:keypressed(key, unicode)
-  local action = control_map.keyboard.on_press[key]
-  if type(action) == "function" then action(self) end
-
-  local player_x, player_y = self:grid_to_world_coords(self.player.x, self.player.y)
-  -- the camera movement is too annoying
-  -- needs to only adjust when it's near bounds or something
-  -- game.camera:setPosition(player_x - g.getWidth() / 2, player_y - g.getHeight() / 2)
 end
 
 function Map:keyreleased(key, unicode)
 end
 
 function Map:joystickpressed(joystick, button)
-  print(joystick, button)
 end
 
 function Map:joystickreleased(joystick, button)
-  print(joystick, button)
 end
 
 function Map:focus(has_focus)
