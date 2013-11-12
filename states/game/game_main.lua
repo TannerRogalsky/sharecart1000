@@ -2,13 +2,52 @@ local Main = Game:addState('Main')
 
 function Main:enteredState()
   Collider = HC(100, self.on_start_collide, self.on_stop_collide)
+
+  self.grid = Grid:new(25, 25)
+
+  for x, y, _ in self.grid:each() do
+    self.grid:set(x, y, "g")
+  end
+  -- self.grid:set(5, 5, "i")
+
+  self.player = {x = 5, y = 5, letter = "@"}
+
+  self.tile_width, self.tile_height = 15, 20
+
+  self.controls = {
+    keyboard = {
+      update = {
+        -- up = self.keyupdate_up,
+        -- down = self.keyupdate_down,
+        -- left = self.keyupdate_left,
+        -- right = self.keyupdate_right
+      },
+      pressed = {
+        up = self.keypressed_up,
+        down = self.keypressed_down,
+        left = self.keypressed_left,
+        right = self.keypressed_right
+      }
+    }
+  }
 end
 
 function Main:update(dt)
+
 end
 
 function Main:render()
   self.camera:set()
+
+  for x, y, letter in self.grid:each() do
+    if x == self.player.x and y == self.player.y then
+      g.setColor(COLORS.red:rgb())
+      g.print(self.player.letter, x * self.tile_width, y * self.tile_height)
+    else
+      g.setColor(COLORS.white:rgb())
+      g.print(letter, x * self.tile_width, y * self.tile_height)
+    end
+  end
 
   self.camera:unset()
 end
@@ -20,6 +59,8 @@ function Main:mousereleased(x, y, button)
 end
 
 function Main:keypressed(key, unicode)
+  local action = self.controls.keyboard.pressed[key]
+  if is_func(action) then action(self) end
 end
 
 function Main:keyreleased(key, unicode)
@@ -30,6 +71,23 @@ end
 
 function Main:joystickreleased(joystick, button)
 end
+
+function Main:keypressed_up()
+  self.player.y = self.player.y - 1
+end
+
+function Main:keypressed_down()
+  self.player.y = self.player.y + 1
+end
+
+function Main:keypressed_left()
+  self.player.x = self.player.x - 1
+end
+
+function Main:keypressed_right()
+  self.player.x = self.player.x + 1
+end
+
 
 function Main:focus(has_focus)
 end
