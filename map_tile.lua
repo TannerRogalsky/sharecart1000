@@ -15,8 +15,10 @@ end
 
 function MapTile:render(x, y)
   g.setColor(self.color:rgb())
-  for _,letter in pairs(self.content) do
-    g.print(letter, x, y)
+  local _, letter = next(self.content)
+
+  if letter then
+    g.printf(letter, x, y, self.parent.tile_width, "center")
   end
 end
 
