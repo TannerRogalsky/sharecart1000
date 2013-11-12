@@ -3,10 +3,13 @@ local Main = Game:addState('Main')
 function Main:enteredState()
   Collider = HC(100, self.on_start_collide, self.on_stop_collide)
 
-  self.map = Map:new(0, 0, 10, 10, 20, 20)
+  local font_width, font_height = self.default_font:getWidth("*"), self.default_font:getHeight()
+
+  self.map = Map:new(0, 0, 10, 10, font_width * 2, font_height)
   for x, y, tile in self.map:each() do
     table.insert(tile.content, "i")
   end
+  self.map.grid:get(5, 5).content = {"g", "@"}
 
 end
 
